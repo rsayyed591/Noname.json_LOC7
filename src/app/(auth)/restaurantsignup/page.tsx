@@ -4,8 +4,11 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import FileUpload from "@/components/ui/FileUpload"
-
+import APIservice from "@/api/api"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 export default function Page() {
+    const router = useRouter()
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         email: "",
@@ -29,38 +32,58 @@ export default function Page() {
         setFormData({ ...formData, [name]: file })
     }
 
-    const handleSubmitStep1 = (e: React.FormEvent) => {
+    const handleSubmitStep1 = async(e: React.FormEvent) => {
         e.preventDefault()
-        fetch("https://b1d6-14-139-125-227.ngrok-free.app/auth/register_user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: formData.email,
-                password: formData.password,
-                role:"restaurant"
-            }),
+
+        const response = APIservice.registerUser(JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            role: "restaurant",
+        }))
+        response.then((data:any) => {
+
+            if (data.token) {
+            localStorage.setItem("token", data.token)
+            const t=localStorage.getItem("token")
+            console.log(t)
+            setStep(2)
+            } else {
+            alert("Authentication failed")
+            }
+        }).catch((error:any) => {
+            console.error("Error:", error)
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data) {
-                    localStorage.setItem("token", data.token)
-                    console.log("Authentication successful:", data.token)
-                    setStep(2)
-                } else {
-                    alert("Authentication failed")
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error)
-            })
         setStep(2)
     }
 
     const handleSubmitStep2 = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log("Final Form Data:", formData)
+        const FormsData = new FormData()
+        FormsData.append("name", formData.restaurantName)
+        FormsData.append("gstin", formData.gstin)
+        FormsData.append("address", `${formData.address1}, ${formData.address2}, ${formData.city}, ${formData.state}`)
+        if (formData.pancard) {
+            FormsData.append("pancard", formData.pancard as Blob)
+        }
+        if (formData.restaurantImage) {
+            FormsData.append("image", `${formData.restaurantImage}`)
+        }
+        if (formData.fssaiLicense) {
+            FormsData.append("fssaiLicense", formData.fssaiLicense)
+        }
+        const token = localStorage.getItem("token")
+        
+        const response = APIservice.profileDataNGO(FormsData,token)
+        response.then((data:any) => {
+            if (data) {
+                router.push("/restaurant")
+            setStep(2)
+            } else {
+            alert("Authentication failed")
+            }
+        }).catch((error:any) => {
+            console.error("Error:", error)
+        })
     }
 
     return (
@@ -118,12 +141,16 @@ export default function Page() {
                             <FileUpload onFileSelect={(file) => handleFileChange("restaurantImage", file)} label="Upload Restaurant Image" />
                             <FileUpload onFileSelect={(file) => handleFileChange("fssaiLicense", file)} label="Upload FSSAI License (PDF)" />
                         </div>
+                        
 
                         <Button type="submit" className="w-full bg-teal-100 hover:bg-teal-200 text-white py-2 rounded-md transition">
                             Submit
                         </Button>
                     </form>
                 )}
+                <div className="text-center mt-4">
+                            <Link href="/ngosignup" className="text-teal-500 hover:underline">Sign up as NGO</Link>
+                        </div>
             </div>
         </div>
     )
