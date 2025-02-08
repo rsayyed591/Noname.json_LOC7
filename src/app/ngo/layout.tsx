@@ -9,10 +9,12 @@ import { Button } from "@/components/ui/button"
 import { Pacifico } from "next/font/google"
 import { cn } from "@/lib/utils"
 
+const projectname = "अन्नSampark"
 const pacifico = Pacifico({
   weight: "400",
   subsets: ["latin"],
 })
+const ngo = {ngoname:"DEDO NGO", ngopfp:"/ngo/pfp.jpg"}
 
 const navItems = [
   { label: "Dashboard", icon: Home, href: "/ngo" },
@@ -48,17 +50,17 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
               pacifico.className,
             )}
           >
-            अन्नSampark
+            {projectname}
           </span>
         </div>
 
         {/* User Profile Section */}
         <div className="flex flex-col items-center p-6">
-          <Avatar className="h-20 w-20">
-            <AvatarImage src="/restaurant.jpg" alt="User" />
-            <AvatarFallback>UN</AvatarFallback>
+          <Avatar className="h-32 w-32">
+            <AvatarImage src={ngo.ngopfp} alt="User" />
+            <AvatarFallback>NGO</AvatarFallback>
           </Avatar>
-          <p className="mt-4 text-lg font-medium">Welcome, GOONJ NGO</p>
+          <p className="mt-4 text-lg font-bold">Welcome, {ngo.ngoname}</p>
         </div>
 
         {/* Navigation */}
@@ -68,7 +70,7 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center p-3 rounded-lg mb-2 transition-colors",
+                "flex items-center p-3 rounded-lg mb-2 transition-colors font-semibold text-md",
                 item.href === pathname ? "bg-gray-100 text-blue-600" : "text-gray-700 hover:bg-gray-50",
               )}
             >
@@ -102,10 +104,10 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
                 pacifico.className,
               )}
             >
-              AnnSampark
+              {projectname}
             </span>
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/restaurant.jpg" alt="User" />
+              <AvatarImage src={ngo.ngopfp} alt="User" />
               <AvatarFallback>UN</AvatarFallback>
             </Avatar>
           </header>

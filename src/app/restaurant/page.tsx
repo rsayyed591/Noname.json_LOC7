@@ -88,8 +88,8 @@ const WobbleCard = ({ children, onClick }: { children: ReactNode; onClick: Mouse
 
 export default function Restaurant() {
   const [selectedOrder, setSelectedOrder] = useState<{ title: string; value: string; category: string } | null>(null)
-  const [selectedAcceptedOrder, setSelectedAcceptedOrder] = useState(null)
-  const [selectedPublishedOrder, setSelectedPublishedOrder] = useState(null)
+  const [selectedAcceptedOrder, setSelectedAcceptedOrder] = useState<typeof acceptedOrdersList[0] | null>(null)
+  const [selectedPublishedOrder, setSelectedPublishedOrder] = useState<typeof publishedOrdersList[0] | null>(null)
 
   const handleCardClick = (order: { title: string; value: string; category: string }) => {
     setSelectedOrder(order)

@@ -15,7 +15,7 @@ const restaurants = [
     peopleCount: 10,
     rating: "excellent",
     aiQuality: "Fresh and well-preserved",
-    imageUrl: "/placeholder.svg",
+    imageUrl: "/ngo/mixedveg.jpg",
     foodType: "veg",
     description: "Fresh vegetables from today's stock",
   },
@@ -27,7 +27,7 @@ const restaurants = [
     peopleCount: 12,
     rating: "excellent",
     aiQuality: "Very tasty and well-cooked",
-    imageUrl: "/placeholder.svg",
+    imageUrl: "/ngo/biryani.jpg",
     foodType: "non-veg",
     description: "Freshly cooked chicken biryani",
   },
@@ -55,7 +55,7 @@ export default function SelectOrder() {
   }
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-2 md:p-4 lg:p-6">
       <h1 className="text-3xl font-bold mb-6">Select Order</h1>
 
       {loading ? (

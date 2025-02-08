@@ -102,49 +102,40 @@ export default function OrderDetails() {
       exit={{ opacity: 0, y: -20 }}
       className="container mx-auto p-6"
     >
-      <Card className="p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Restaurant Details */}
+      <Card className="p-6 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-3xl font-bold">
+            <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl sm:text-3xl font-bold">
               {restaurantDetails.name}
             </motion.h1>
-
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-full ${
-                    restaurantDetails.foodType === "veg" ? "bg-green-500" : "bg-red-500"
+                    restaurantDetails.foodType === 'veg' ? 'bg-green-500' : 'bg-red-500'
                   }`}
                 />
                 <span className="font-medium">{restaurantDetails.foodType.toUpperCase()}</span>
               </div>
-
-              <p className="flex items-center gap-2">
+              <p className="flex items-center gap-2 text-sm sm:text-base">
                 FSSAI: <span className="text-green-600 font-medium">{restaurantDetails.fssai.toUpperCase()}</span>
               </p>
-
-              <p className="flex items-start gap-2">
+              <p className="flex items-start gap-2 text-sm sm:text-base">
                 <MapPin className="mt-1 shrink-0" />
                 <span>{restaurantDetails.address}</span>
               </p>
-
-              <p className="flex items-center gap-2">
-                Stars: {restaurantDetails.stars}{" "}
-                <span className="text-yellow-500">{"⭐".repeat(restaurantDetails.stars)}</span>
+              <p className="flex items-center gap-2 text-sm sm:text-base">
+                Stars: {restaurantDetails.stars}{' '}
+                <span className="text-yellow-500">{'⭐'.repeat(restaurantDetails.stars)}</span>
               </p>
-
-              {/* Map */}
-              <div className="h-[300px] rounded-lg overflow-hidden">
+              <div className="h-64 w-full rounded-lg overflow-hidden">
                 {isLoaded ? (
                   <GoogleMap
-                    mapContainerStyle={{ width: "100%", height: "100%" }}
+                    mapContainerStyle={{ width: '100%', height: '100%' }}
                     center={{ lat: restaurantDetails.location.latitude, lng: restaurantDetails.location.longitude }}
                     zoom={14}
                   >
-                    <Marker
-                      position={{ lat: restaurantDetails.location.latitude, lng: restaurantDetails.location.longitude }}
-                    />
+                    <Marker position={{ lat: restaurantDetails.location.latitude, lng: restaurantDetails.location.longitude }} />
                   </GoogleMap>
                 ) : (
                   <div className="w-full h-full bg-gray-100 animate-pulse" />
@@ -153,28 +144,25 @@ export default function OrderDetails() {
             </div>
           </div>
 
-          {/* Reviews and Charts */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Public Sentiment</h2>
-              <div className="h-[200px]">
+              <h2 className="text-lg sm:text-xl font-semibold">Public Sentiment</h2>
+              <div className="h-48">
                 <Doughnut
                   data={{
-                    labels: ["Positive", "Negative"],
-                    datasets: [
-                      {
-                        data: [restaurantDetails.reviews.public.positive, restaurantDetails.reviews.public.negative],
-                        backgroundColor: ["#22c55e", "#ef4444"],
-                      },
-                    ],
+                    labels: ['Positive', 'Negative'],
+                    datasets: [{
+                      data: [restaurantDetails.reviews.public.positive, restaurantDetails.reviews.public.negative],
+                      backgroundColor: ['#22c55e', '#ef4444'],
+                    }],
                   }}
                 />
               </div>
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Food Sentiment</h2>
-              <div className="h-[200px]">
+              <h2 className="text-lg sm:text-xl font-semibold">Food Sentiment</h2>
+              <div className="h-48">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={foodSentimentData}>
                     <XAxis dataKey="name" />
@@ -186,14 +174,10 @@ export default function OrderDetails() {
             </div>
 
             <div className="space-y-3">
-              <Button
-                variant="link"
-                onClick={() => setShowFoodDetails(true)}
-                className="text-blue-600 hover:text-blue-800"
-              >
+              <Button variant="link" onClick={() => setShowFoodDetails(true)} className="text-blue-600 hover:text-blue-800">
                 Check Food Details
               </Button>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button onClick={() => setShowDeliveryAgents(true)} className="flex-1">
                   Continue
                 </Button>
