@@ -76,7 +76,7 @@ export async function fetchRestaurantDonations(): Promise<RestaurantDonations> {
         ngoName: "Food For All",
         rating: "good",
         aiQuality: "Fresh and well-cooked",
-        imageUrl: "/chicken-skewers-with-slices-apples-chili.jpg",
+        imageUrl: "/restaurant/chicken-skewers-with-slices-apples-chili.jpg",
         createdAt: new Date().toISOString(),
         foodType: "veg",
         status: "accepted",

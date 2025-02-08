@@ -2,24 +2,55 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
+import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api"
 import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { RestaurantDetailsSkeleton } from "@/components/ngo/restaurant-skeleton"
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import confetti from "canvas-confetti"
-import { Doughnut } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js"
-import { User2, Star, MapPin } from "lucide-react"
+import { Star, MapPin } from "lucide-react"
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts"
+import { Doughnut } from "react-chartjs-2"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
+import { Card } from "@/components/ui/card"
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement)
 
 const GOOGLE_MAPS_API_KEY = "xxxx"
 
-// Sample data - replace with API
+const agentsData = {
+  agents: [
+    {
+      id: "1",
+      name: "Vivek Chouhan",
+      stars: 4,
+      image: "/ngo/delivery-agent.jpg",
+    },
+    {
+      id: "2",
+      name: "Rahul Kumar",
+      stars: 4,
+      image: "/ngo/delivery-agent.jpg",
+    },
+    {
+      id: "3",
+      name: "Priya Singh",
+      stars: 4,
+      image: "/ngo/delivery-agent.jpg",
+    },
+    {
+      id: "4",
+      name: "Amit Patel",
+      stars: 4,
+      image: "/ngo/delivery-agent.jpg",
+    },
+  ],
+}
+
 const restaurantDetails = [
   {
     id: "1",
@@ -89,11 +120,6 @@ const restaurantDetails = [
   },
 ]
 
-const deliveryAgents = [
-  { id: "1", name: "John Doe", rating: 4.5, avatar: "/placeholder.svg" },
-  { id: "2", name: "Jane Smith", rating: 4.8, avatar: "/placeholder.svg" },
-]
-
 const foodSentimentData = [
   { name: "Very Good", value: 45 },
   { name: "Good", value: 30 },
@@ -102,29 +128,35 @@ const foodSentimentData = [
 ]
 
 export default function OrderDetails() {
-//   const params = useParams()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [showFoodDetails, setShowFoodDetails] = useState(false)
   const [showDeliveryAgents, setShowDeliveryAgents] = useState(false)
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null)
+  const [quantity, setQuantity] = useState("")
+  const [showSuccess, setShowSuccess] = useState(false)
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
   })
 
   useEffect(() => {
-    // Simulate API call
     setTimeout(() => setLoading(false), 1500)
   }, [])
 
   const handleConfirmOrder = () => {
+    setShowSuccess(true)
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
     })
     setShowDeliveryAgents(false)
+
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      router.push("/ngo")
+    }, 3000)
   }
 
   if (loading) {
@@ -209,24 +241,37 @@ export default function OrderDetails() {
               </div>
             </div>
 
-            <div className="space-y-3">
-              <Button variant="link" onClick={() => setShowFoodDetails(true)} className="text-blue-600 hover:text-blue-800">
-                Check Food Details
-              </Button>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button onClick={() => setShowDeliveryAgents(true)} className="flex-1">
-                  Continue
-                </Button>
-                <Button variant="destructive" onClick={() => router.back()} className="flex-1">
-                  Cancel
-                </Button>
-              </div>
+      <div className="space-y-3">
+        <Button variant="link" onClick={() => setShowFoodDetails(true)} className="text-blue-600 hover:text-blue-800">
+          Check Food Details
+        </Button>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="quantity">Quantity (kg)</Label>
+            <Input
+              id="quantity"
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              placeholder="Enter quantity in kg"
+              min="1"
+            />
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button onClick={() => setShowDeliveryAgents(true)} className="flex-1" disabled={!quantity}>
+              Continue
+            </Button>
+            <Button variant="destructive" onClick={() => router.back()} className="flex-1">
+              Cancel
+            </Button>
             </div>
+            </div>
+          </div>
           </div>
         </div>
       </Card>
 
-      {/* Food Details Modal */}
+{/* Food Details Modal */}
       <Dialog open={showFoodDetails} onOpenChange={setShowFoodDetails}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
@@ -258,14 +303,15 @@ export default function OrderDetails() {
         </DialogContent>
       </Dialog>
 
-      {/* Delivery Agents Modal */}
+      
+      {/* Updated Delivery Agents Modal */}
       <Dialog open={showDeliveryAgents} onOpenChange={setShowDeliveryAgents}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Select Delivery Agent</DialogTitle>
           </DialogHeader>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
-            {deliveryAgents.map((agent) => (
+            {agentsData.agents.map((agent) => (
               <motion.div
                 key={agent.id}
                 whileHover={{ scale: 1.02 }}
@@ -276,14 +322,15 @@ export default function OrderDetails() {
                 onClick={() => setSelectedAgent(agent.id)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="shrink-0">
-                    <User2 className="w-10 h-10 text-gray-400" />
-                  </div>
+                  <Avatar>
+                    <AvatarImage src={agent.image} alt={agent.name} />
+                    <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div>
                     <p className="font-semibold">{agent.name}</p>
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span>{agent.rating}</span>
+                      <span>{agent.stars}</span>
                     </div>
                   </div>
                 </div>
@@ -293,6 +340,16 @@ export default function OrderDetails() {
               Confirm Order
             </Button>
           </motion.div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Success Message Dialog */}
+      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
+        <DialogContent className="max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-green-600">Order Successful!</DialogTitle>
+          </DialogHeader>
+          <p className="py-4">Your order has been placed successfully. Redirecting to dashboard...</p>
         </DialogContent>
       </Dialog>
     </motion.div>
