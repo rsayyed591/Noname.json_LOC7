@@ -2,11 +2,17 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Home, Package, Truck } from 'lucide-react'
+import { usePathname, useRouter } from "next/navigation"
+import { Home, Package, Truck, LogOut } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MobileNav } from "@/components/ngo/MobileNav"
-import React from "react";
+import { Button } from "@/components/ui/button"
+import { Pacifico } from "next/font/google"
+import { cn } from "@/lib/utils"
+
+const pacifico = Pacifico({
+  weight: "400",
+  subsets: ["latin"],
+})
 
 const navItems = [
   { label: "Dashboard", icon: Home, href: "/ngo" },
@@ -17,6 +23,7 @@ const navItems = [
 export default function NgoLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth < 768)
@@ -25,50 +32,108 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("resize", checkIfMobile)
   }, [])
 
+  const handleLogout = () => {
+    router.push("/")
+  }
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar - Hidden on mobile */}
       <aside className="hidden md:flex bg-white shadow-lg w-64 flex-col h-screen sticky top-0">
-        <div className="p-4 bg-blue-100">
-          <Link href="/" className="text-2xl font-bold text-gray-800">
-            AnnSampark
-          </Link>
+        {/* Logo Section */}
+        <div className="p-6 bg-gradient-to-b from-pink-50 to-transparent">
+          <span
+            className={cn(
+              "block text-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-[#FF9933] via-blue-500/80 to-[#138808]",
+              pacifico.className,
+            )}
+          >
+            अन्नSampark
+          </span>
         </div>
-        <nav className="flex-grow p-4">
+
+        {/* User Profile Section */}
+        <div className="flex flex-col items-center p-6">
+          <Avatar className="h-20 w-20">
+            <AvatarImage src="/restaurant.jpg" alt="User" />
+            <AvatarFallback>UN</AvatarFallback>
+          </Avatar>
+          <p className="mt-4 text-lg font-medium">Welcome, GOONJ NGO</p>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-grow px-4 py-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center p-2 rounded-lg mb-2 ${
-                item.href === pathname ? "bg-gray-200 text-blue-600" : "text-gray-700 hover:bg-gray-100"
-              }`}
+              className={cn(
+                "flex items-center p-3 rounded-lg mb-2 transition-colors",
+                item.href === pathname ? "bg-gray-100 text-blue-600" : "text-gray-700 hover:bg-gray-50",
+              )}
             >
-              <item.icon className="mr-2 h-5 w-5" />
+              <item.icon className="mr-3 h-5 w-5" />
               {item.label}
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t">
-          <div className="flex items-center">
-            <Avatar>
-              <AvatarImage src="/doctor/pfp.jpg" alt="Doctor" />
-              <AvatarFallback>DR</AvatarFallback>
-            </Avatar>
-            <div className="ml-3">
-              <p className="text-sm font-medium">Dr. John Doe</p>
-              <p className="text-xs text-gray-500">ID: D12345</p>
-            </div>
-          </div>
+
+        {/* Logout Button */}
+        <div className="p-4 mt-auto">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50"
+            onClick={handleLogout}
+          >
+            <LogOut className="mr-3 h-5 w-5" />
+            Logout
+          </Button>
         </div>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 min-h-screen">
-        <div className="p-6">{children}</div>
-      </main>
+        {/* Mobile Header */}
+        {isMobile && (
+          <header className="sticky top-0 z-10 bg-white shadow-sm p-4 flex items-center justify-between">
+            <span
+              className={cn(
+                "text-xl bg-clip-text text-transparent bg-gradient-to-r from-[#FF9933] via-blue-500/80 to-[#138808]",
+                pacifico.className,
+              )}
+            >
+              AnnSampark
+            </span>
+            <Avatar className="h-8 w-8">
+              <AvatarImage src="/restaurant.jpg" alt="User" />
+              <AvatarFallback>UN</AvatarFallback>
+            </Avatar>
+          </header>
+        )}
 
-      {/* Mobile Navigation */}
-      {isMobile && <MobileNav navItems={navItems} />}
+        {/* Page Content */}
+        <div className="p-6">{children}</div>
+
+        {/* Mobile Navigation */}
+        {isMobile && (
+          <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex flex-col items-center p-2 rounded-lg",
+                  item.href === pathname ? "text-blue-600" : "text-gray-700",
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                <span className="text-xs mt-1">{item.label}</span>
+              </Link>
+            ))}
+          </nav>
+        )}
+      </main>
     </div>
   )
 }
+
