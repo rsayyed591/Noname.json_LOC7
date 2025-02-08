@@ -3,6 +3,8 @@
 import { motion } from "framer-motion"
 import { Pacifico } from "next/font/google"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const pacifico = Pacifico({
   subsets: ["latin"],
@@ -14,7 +16,6 @@ export default function HeroGeometric({
   title1 = "Welcome to",
   title2 = "अन्नSampark",
 }: {
-  badge?: string
   title1?: string
   title2?: string
 }) {
@@ -32,30 +33,46 @@ export default function HeroGeometric({
   }
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-teal-600">
-      <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">{title1}</span>
-              <br />
-              <span
-                className={cn(
-                  "bg-clip-text text-transparent bg-gradient-to-r from-[#FF9933] via-white/90 to-[#138808]",
-                  pacifico.className,
-                )}
-              >
-                {title2}
-              </span>
-            </h1>
-          </motion.div>
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gray-100">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/bg.jpg')" }} // Replace with your image path
+      ></div>
 
-          <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <p className="text-base sm:text-lg md:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
-              Donate Food With Ease.
-            </p>
-          </motion.div>
-        </div>
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FF9933]/50 via-white/70 to-[#138808]/50 opacity-80"></div>
+
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-6 text-center">
+        <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white drop-shadow-lg">
+            <span className="bg-clip-text text-transparent bg-gradient-to-b from-black to-black/80">{title1}</span>
+            <br />
+            <span
+              className={cn(
+                "bg-clip-text text-transparent bg-gradient-to-r from-[#FF9933] via-blue-500/80 to-[#138808]",
+                pacifico.className,
+              )}
+            >
+              {title2}
+            </span>
+          </h1>
+        </motion.div>
+
+        <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
+          <p className="text-lg sm:text-xl md:text-2xl text-white drop-shadow-lg mb-8 leading-relaxed font-light tracking-wide max-w-2xl mx-auto">
+            Donate Food With Ease. <br /> Make a Difference Today!
+          </p>
+        </motion.div>
+
+        <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
+          <Link href="/signup">
+            <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#138808] hover:bg-[#0d6604] text-white shadow-xl transition-all duration-300">
+              Get Started
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </div>
   )
