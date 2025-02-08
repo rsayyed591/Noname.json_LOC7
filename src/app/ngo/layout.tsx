@@ -31,7 +31,7 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
       <aside className="hidden md:flex bg-white shadow-lg w-64 flex-col h-screen sticky top-0">
         <div className="p-4 bg-blue-100">
           <Link href="/" className="text-2xl font-bold text-gray-800">
-            MedWell
+            AnnSampark
           </Link>
         </div>
         <nav className="flex-grow p-4">
