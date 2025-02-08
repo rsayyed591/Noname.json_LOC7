@@ -64,7 +64,9 @@ const orderStats = [
 ]
 
 // Wobble card component
-const WobbleCard = ({ children, onClick }) => {
+import { ReactNode, MouseEventHandler } from "react";
+
+const WobbleCard = ({ children, onClick }: { children: ReactNode; onClick: MouseEventHandler<HTMLDivElement> }) => {
   return (
     <div 
       className="group relative flex rounded-lg border p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-white"
