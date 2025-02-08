@@ -18,7 +18,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 
 const GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY"
 
-// Sample data - replace with API call
+// Sample data - replace with API
 const restaurantDetails = {
   id: "1",
   name: "Vivek Restaurant",
