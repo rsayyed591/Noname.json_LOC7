@@ -67,7 +67,7 @@ export default function HeroGeometric({
         </motion.div>
 
         <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
-          <Link href="/signup">
+          <Link href="/signin">
             <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#138808] hover:bg-[#0d6604] text-white shadow-xl transition-all duration-300">
               Get Started
             </Button>

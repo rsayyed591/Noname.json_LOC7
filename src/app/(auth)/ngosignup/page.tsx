@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import FileUpload from "@/components/ui/FileUpload"
 import Link from "next/link"
-
+import APIservice from "@/api/api"
+import { useRouter } from "next/navigation"
 export default function Page() {
+    const router = useRouter()   
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         email: "",
@@ -16,6 +18,7 @@ export default function Page() {
         address2: "",
         city: "",
         state: "",
+        name:"",
         pancard: null,
     })
 
@@ -27,65 +30,43 @@ export default function Page() {
         setFormData({ ...formData, [name]: file })
     }
 
-    const handleSubmitStep1 = (e: React.FormEvent) => {
+    const handleSubmitStep1 = async (e: React.FormEvent) => {
         e.preventDefault()
         setStep(2)
-        fetch("https://b1d6-14-139-125-227.ngrok-free.app/auth/register_user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: formData.email,
-                password: formData.password,
-                role: "ngo",
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data) {
-                    localStorage.setItem("token", data.token)
-                    setStep(2)
-                } else {
-                    alert("Authentication failed")
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error)
-            })
+        const response = await APIservice.registerUser(JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            role: "ngo",
+        }))
+        localStorage.setItem("token", response.data.token)
+        console.log(localStorage.getItem("token"))
+        setStep(2)
     }
 
     const handleSubmitStep2 = (e: React.FormEvent) => {
         e.preventDefault()
         const FormsData = new FormData()
-        FormsData.append("darpanid", formData.darpanid)
+        FormsData.append("darpanId", `${formData.darpanid}`)
+        FormsData.append("name", `${formData.name}`)
         FormsData.append("address", `${formData.address1}, ${formData.address2}, ${formData.city}, ${formData.state}`)
         if (formData.pancard) {
-            FormsData.append("pancard", formData.pancard as Blob)
+            FormsData.append("pancard", formData.pancard)
         }
         FormsData.append("role", "ngo")
-        // fetch("https://b1d6-14-139-125-227.ngrok-free.app/profile/register_user", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         email: formData.email,
-        //         password: formData.password,
-        //     }),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         if (data) {
-        //             localStorage.setItem("token", data.token)
-        //             setStep(2)
-        //         } else {
-        //             alert("Authentication failed")
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error:", error)
-        //     })
+        console.log("Final Form Data:", FormsData)
+        const token = localStorage.getItem("token")
+        console.log("Token:", token)
+        const response = APIservice.profileDataNGO(FormsData,token)
+        response.then((data:any) => {
+            if (data) {
+                router.push("/ngo")
+            setStep(2)
+            } else {
+            alert("Authentication failed")
+            }
+        }).catch((error:any) => {
+            console.error("Error:", error)
+        })
         console.log("Final Form Data:", FormsData)
 
     }
@@ -113,6 +94,10 @@ export default function Page() {
                     </form>
                 ) : (
                     <form onSubmit={handleSubmitStep2} className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Name</label>
+                            <Input type="text" name="name" placeholder="Enter Name" value={formData.name} onChange={handleChange} />
+                        </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Darpan ID</label>
                             <Input type="text" name="darpanid" placeholder="Enter Darpan ID" value={formData.darpanid} onChange={handleChange} />
@@ -144,7 +129,11 @@ export default function Page() {
                     </form>
                 )}
             </div>
-            <Link href="/resturantsingup"></Link>
+            <div className="text-center mt-4">
+                <Link href="/restaurantsignup" className="text-teal-500 hover:underline">
+                    Don't have an account? Sign up here
+                </Link>
+            </div>
         </div>
     )
 }
