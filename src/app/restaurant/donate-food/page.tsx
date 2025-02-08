@@ -29,9 +29,9 @@ import {
   donateFormSchema,
   type DonateFormValues,
 } from "@/lib/schemas/donate-food-schema";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { HoverEffect } from "@/components/ui/hover-effect"; // Optional: For hover effects
+// import { Label } from "@/components/ui/label";
+// import { Textarea } from "@/components/ui/textarea";
+// import { HoverEffect } from "@/components/ui/hover-effect"; // Optional: For hover effects
 
 export default function DonateFoodPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);

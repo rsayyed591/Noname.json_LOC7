@@ -48,11 +48,11 @@ export default function PreviousDonations() {
   return (
     <div className="flex-1 p-4 md:p-8 pt-6">
       <h1 className="text-3xl font-bold mb-6">
-        {isLoading ? <Skeleton className="h-9 w-64" /> : `${data.restaurantName}'s Previous Donations`}
+        {isLoading || !data ? <Skeleton className="h-9 w-64" /> : `${data.restaurantName}'s Previous Donations`}
       </h1>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {isLoading
+        {isLoading || !data
           ? Array.from({ length: 6 }).map((_, i) => <DonationCardSkeleton key={i} />)
           : data.donations.map((donation) => (
               <DonationCard key={donation.id} donation={donation} onClick={() => setSelectedDonation(donation)} />
