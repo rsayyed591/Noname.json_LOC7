@@ -58,6 +58,13 @@ export default function DonateFoodPage() {
       formData.append("foodImage", foodImage);
     }
 
+    //also hit the gemini api endpoint in the api/donate-food route with the image
+    const response = await fetch("http://localhost:3000/api/food-hygine", {
+      method: "POST",
+      body: formData,
+    });
+    console.log(response)
+
     await fetch("/api/donate-food", {
       method: "POST",
       body: formData,
