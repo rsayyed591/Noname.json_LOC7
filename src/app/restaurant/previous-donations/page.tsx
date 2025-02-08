@@ -58,7 +58,7 @@ export default function PreviousDonations() {
               <DonationCard key={donation.id} donation={donation} onClick={() => setSelectedDonation(donation)} />
             ))}
       </div>
-      //Commit messages should be in the imperative mood
+      
 
       <DonationDetailsModal
         donation={selectedDonation}
