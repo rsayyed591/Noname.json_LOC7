@@ -1,58 +1,43 @@
 import axios from 'axios'
 
+export const ngrok_url = 'https://05a5-14-139-125-227.ngrok-free.app'
 const api = axios.create({
-  baseURL: `/api/v1`,
-  withCredentials: true,
+  baseURL: `${ngrok_url}/`,
   headers: {
-    'Content-Type': 'application/json'
-  }
-})
-
-const token = localStorage.getItem('token')
-if (token) {
-  api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-}
-
-export const authService = {
-  login: async (email, password) => {
-    try {
-      const response = await api.post('/user/login', { email, password })
-
-      // Save the token in localStorage
-      const token = response.data.message.token
-      localStorage.setItem('token', token)
-
-      // Set Authorization header for subsequent requests
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
-      return response.data
-    } catch (error) {
-      throw error.response?.data || error
-    }
+      'Content-Type': 'application/json',
   },
+});
 
-  logout: async () => {
-    try {
-      const response = await api.get('/user/logout')
-      // Clear token from localStorage and headers
-      localStorage.removeItem('token')
-      delete api.defaults.headers.common['Authorization']
+const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-      return response.data
-    } catch (error) {
-      throw error.response?.data || error
-    }
-  },
 
-  getInfo: async () => {
-    try {
-      const response = await api.get('/user/getInfo')
-      return response.data
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        return null
-      }
-      throw error.response?.data || error
-    }
+const APIservice = {
+  registerUser: (data) =>
+    api.post("/auth/register_user",data,  {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }),
+  loginUser: (data) =>
+    api.post("/auth/login_user", data, {
+      headers: {
+       "Content-Type": "application/json",
+      },
+    }),
+  profileDataDonor: (data,token) =>
+    api.post("profile/create_donor_profile", data, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+       "Content-Type": "application/json",
+      },
+    }),
+  profileDataNGO: (data,token) =>
+    api.post("profile/create_ngo_profile", data, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+       "Content-Type": "multipart/form-data",
+      },
+    })
   }
-}
+
+  export default APIservice;

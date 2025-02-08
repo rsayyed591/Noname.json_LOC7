@@ -13,45 +13,81 @@ import confetti from "canvas-confetti"
 import { Doughnut } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js"
 import { User2, Star, MapPin } from "lucide-react"
+import Image from "next/image"
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement)
 
-const GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY"
+const GOOGLE_MAPS_API_KEY = "xxxx"
 
-// Sample data - replace with API call
-const restaurantDetails = {
-  id: "1",
-  name: "Vivek Restaurant",
-  foodType: "veg",
-  location: {
-    latitude: 18.96712937931117,
-    longitude: 72.82848240827201,
-  },
-  fssai: "approved",
-  address: "15, LG Road, Vileparle West, Mumbai, Maharashtra",
-  stars: 5,
-  reviews: {
-    public: {
-      positive: 75,
-      negative: 25,
+// Sample data - replace with API
+const restaurantDetails = [
+  {
+    id: "1",
+    name: "Vivek Restaurant",
+    foodType: "veg",
+    location: {
+      latitude: 18.96712937931117,
+      longitude: 72.82848240827201,
     },
-    food: {
-      veryGood: 45,
-      good: 30,
-      average: 15,
-      bad: 10,
+    fssai: "approved",
+    address: "15, LG Road, Vileparle West, Mumbai, Maharashtra",
+    stars: 5,
+    reviews: {
+      public: {
+        positive: 75,
+        negative: 25,
+      },
+      food: {
+        veryGood: 45,
+        good: 30,
+        average: 15,
+        bad: 10,
+      },
+    },
+    foodDetails: {
+      foodName: "Mixed Vegetables",
+      quantity: "10kg",
+      peopleCount: 10,
+      rating: "excellent",
+      aiQuality: "Fresh and well-preserved",
+      imageUrl: "/ngo/mixedveg.jpg",
+      description: "Fresh vegetables from today's stock",
     },
   },
-  foodDetails: {
-    foodName: "Mixed Vegetables",
-    quantity: "10kg",
-    peopleCount: 10,
-    rating: "excellent",
-    aiQuality: "Fresh and well-preserved",
-    imageUrl: "/placeholder.svg",
-    description: "Fresh vegetables from today's stock",
+  {
+    id: "2",
+    name: "Nishi Restaurant",
+    foodType: "non-veg",
+    location: {
+      latitude: 19.0760,
+      longitude: 72.8777,
+    },
+    fssai: "approved",
+    address: "20, MG Road, Andheri East, Mumbai, Maharashtra",
+    stars: 4,
+    reviews: {
+      public: {
+        positive: 60,
+        negative: 40,
+      },
+      food: {
+        veryGood: 35,
+        good: 25,
+        average: 20,
+        bad: 20,
+      },
+    },
+    foodDetails: {
+      foodName: "Chicken Biryani",
+      quantity: "15kg",
+      peopleCount: 15,
+      rating: "very good",
+      aiQuality: "Well-cooked and flavorful",
+      imageUrl: "/ngo/biryani.jpg",
+      description: "Delicious chicken biryani with aromatic spices",
+    },
   },
-}
+]
 
 const deliveryAgents = [
   { id: "1", name: "John Doe", rating: 4.5, avatar: "/placeholder.svg" },
@@ -106,36 +142,36 @@ export default function OrderDetails() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl sm:text-3xl font-bold">
-              {restaurantDetails.name}
+              {restaurantDetails[0].name}
             </motion.h1>
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <div
                   className={`w-3 h-3 rounded-full ${
-                    restaurantDetails.foodType === 'veg' ? 'bg-green-500' : 'bg-red-500'
+                    restaurantDetails[0].foodType === 'veg' ? 'bg-green-500' : 'bg-red-500'
                   }`}
                 />
-                <span className="font-medium">{restaurantDetails.foodType.toUpperCase()}</span>
+                <span className="font-medium">{restaurantDetails[0].foodType.toUpperCase()}</span>
               </div>
               <p className="flex items-center gap-2 text-sm sm:text-base">
-                FSSAI: <span className="text-green-600 font-medium">{restaurantDetails.fssai.toUpperCase()}</span>
+                FSSAI: <span className="text-green-600 font-medium">{restaurantDetails[0].fssai.toUpperCase()}</span>
               </p>
               <p className="flex items-start gap-2 text-sm sm:text-base">
                 <MapPin className="mt-1 shrink-0" />
-                <span>{restaurantDetails.address}</span>
+                <span>{restaurantDetails[0].address}</span>
               </p>
               <p className="flex items-center gap-2 text-sm sm:text-base">
-                Stars: {restaurantDetails.stars}{' '}
-                <span className="text-yellow-500">{'⭐'.repeat(restaurantDetails.stars)}</span>
+                Stars: {restaurantDetails[0].stars}{' '}
+                <span className="text-yellow-500">{'⭐'.repeat(restaurantDetails[0].stars)}</span>
               </p>
               <div className="h-64 w-full rounded-lg overflow-hidden">
                 {isLoaded ? (
                   <GoogleMap
                     mapContainerStyle={{ width: '100%', height: '100%' }}
-                    center={{ lat: restaurantDetails.location.latitude, lng: restaurantDetails.location.longitude }}
+                    center={{ lat: restaurantDetails[0].location.latitude, lng: restaurantDetails[0].location.longitude }}
                     zoom={14}
                   >
-                    <Marker position={{ lat: restaurantDetails.location.latitude, lng: restaurantDetails.location.longitude }} />
+                    <Marker position={{ lat: restaurantDetails[0].location.latitude, lng: restaurantDetails[0].location.longitude }} />
                   </GoogleMap>
                 ) : (
                   <div className="w-full h-full bg-gray-100 animate-pulse" />
@@ -152,7 +188,7 @@ export default function OrderDetails() {
                   data={{
                     labels: ['Positive', 'Negative'],
                     datasets: [{
-                      data: [restaurantDetails.reviews.public.positive, restaurantDetails.reviews.public.negative],
+                      data: [restaurantDetails[0].reviews.public.positive, restaurantDetails[0].reviews.public.negative],
                       backgroundColor: ['#22c55e', '#ef4444'],
                     }],
                   }}
@@ -197,25 +233,27 @@ export default function OrderDetails() {
             <DialogTitle>Food Details</DialogTitle>
           </DialogHeader>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-            <img
-              src={restaurantDetails.foodDetails.imageUrl || "/placeholder.svg"}
-              alt={restaurantDetails.foodDetails.foodName}
+            <Image
+              src={restaurantDetails[0].foodDetails.imageUrl || "/placeholder.svg"}
+              alt={restaurantDetails[0].foodDetails.foodName}
+              width={500}
+              height={300}
               className="w-full h-48 object-cover rounded-lg"
             />
-            <h3 className="text-lg font-semibold">{restaurantDetails.foodDetails.foodName}</h3>
+            <h3 className="text-lg font-semibold">{restaurantDetails[0].foodDetails.foodName}</h3>
             <p>
-              <span className="font-semibold">Quantity:</span> {restaurantDetails.foodDetails.quantity}
+              <span className="font-semibold">Quantity:</span> {restaurantDetails[0].foodDetails.quantity}
             </p>
             <p>
-              <span className="font-semibold">Serves:</span> {restaurantDetails.foodDetails.peopleCount} people
+              <span className="font-semibold">Serves:</span> {restaurantDetails[0].foodDetails.peopleCount} people
             </p>
             <p>
-              <span className="font-semibold">Rating:</span> {restaurantDetails.foodDetails.rating}
+              <span className="font-semibold">Rating:</span> {restaurantDetails[0].foodDetails.rating}
             </p>
             <p>
-              <span className="font-semibold">AI Quality:</span> {restaurantDetails.foodDetails.aiQuality}
+              <span className="font-semibold">AI Quality:</span> {restaurantDetails[0].foodDetails.aiQuality}
             </p>
-            <p>{restaurantDetails.foodDetails.description}</p>
+            <p>{restaurantDetails[0].foodDetails.description}</p>
           </motion.div>
         </DialogContent>
       </Dialog>
