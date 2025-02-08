@@ -3,18 +3,18 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, UtensilsCrossed, Utensils } from 'lucide-react'
+import { Home, Package, Truck } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MobileNav } from "@/components/supermarket/MobileNav"
-import React from "react"; // Added import for React
+import { MobileNav } from "@/components/ngo/MobileNav"
+import React from "react";
 
 const navItems = [
-  { label: "Dashboard", icon: Home, href: "/supermarket" },
-  { label: "Donate Food", icon: Utensils, href: "/supermarket/donate-food" },
-  { label: "Previous Donations", icon: UtensilsCrossed, href: "/supermarket/previous-donations" },
+  { label: "Dashboard", icon: Home, href: "/ngo" },
+  { label: "Select Order", icon: Package, href: "/ngo/select-order" },
+  { label: "Delivery Agent", icon: Truck, href: "/ngo/delivery-agent" },
 ]
 
-export default function SupermarketLayout({ children }: { children: React.ReactNode }) {
+export default function NgoLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false)
   const pathname = usePathname()
 
@@ -63,7 +63,7 @@ export default function SupermarketLayout({ children }: { children: React.ReactN
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 pt-16 min-h-screen">
+      <main className="flex-1 min-h-screen">
         <div className="p-6">{children}</div>
       </main>
 

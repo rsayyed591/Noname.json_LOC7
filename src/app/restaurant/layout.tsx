@@ -63,7 +63,7 @@ export default function RestaurantLayout({ children }: { children: React.ReactNo
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 pt-16 min-h-screen">
+      <main className="flex-1 min-h-screen">
         <div className="p-6">{children}</div>
       </main>
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
@@ -66,7 +66,7 @@ const foodSentimentData = [
 ]
 
 export default function OrderDetails() {
-  const params = useParams()
+//   const params = useParams()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [showFoodDetails, setShowFoodDetails] = useState(false)
