@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Home, Package, Truck, LogOut, Utensils } from "lucide-react"
+import { Home, Package, LogOut, Utensils, Soup } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Pacifico } from "next/font/google"
@@ -17,10 +17,10 @@ const pacifico = Pacifico({
 const ngo = {ngoname:"DEDO NGO", ngopfp:"/ngo/pfp.jpg"}
 
 const navItems = [
-  { label: "Dashboard", icon: Home, href: "/ngo" },
-  { label: "Select Order", icon: Package, href: "/ngo/select-order" },
-  { label: "Del. Agent", icon: Truck, href: "/ngo/delivery-agent" },
-  { label: "Prev Donations", icon: Utensils, href: "/ngo/previous-donations" },
+  { label: "Dashboard", icon: Home, href: "/admin" },
+  { label: "Restaurants", icon: Utensils, href: "/admin/restaurants" },
+  { label: "NGOs", icon: Package, href: "/admin/ngos" },
+  { label: "Add a Res.", icon: Soup, href: "/admin/add-restaurant" },
 ]
 
 export default function NgoLayout({ children }: { children: React.ReactNode }) {
