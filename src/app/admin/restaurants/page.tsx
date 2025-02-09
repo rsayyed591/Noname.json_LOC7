@@ -75,18 +75,18 @@ export default function DeliveryAgent() {
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Delivery Agent</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Resgistered Restaurants</h2>
       </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-200 hover:bg-blue-300 text-blue-800">
               <Plus className="mr-2 h-4 w-4" />
-              Add Agent
+              Add New Restaurants
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add New Agent</DialogTitle>
+              <DialogTitle>Add New Restaurants</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
