@@ -58,7 +58,7 @@ export default function SelectOrder() {
   }, [])
 
   const handleCardClick = (id: string) => {
-    router.push(`/ngo/select-order?orderid=${id}`)
+    router.push(`/ngo/select-order/${id}`)
   }
 
   return (
