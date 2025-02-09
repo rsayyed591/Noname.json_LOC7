@@ -58,6 +58,13 @@ export default function DonateFoodPage() {
       formData.append("foodImage", foodImage);
     }
 
+    //also hit the gemini api endpoint in the api/donate-food route with the image
+    const response = await fetch("http://localhost:3000/api/food-hygine", {
+      method: "POST",
+      body: formData,
+    });
+    console.log(response)
+
     await fetch("/api/donate-food", {
       method: "POST",
       body: formData,
@@ -79,7 +86,7 @@ export default function DonateFoodPage() {
   };
 
   return (
-    <div className="flex-1 p-4 md:p-8 pt-6">
+    <div className="flex-1 p-4 md:p-8 pt-6 mx-auto max-w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -144,7 +151,7 @@ export default function DonateFoodPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-lg">
-                              Number of People
+                              No. of People
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -171,7 +178,7 @@ export default function DonateFoodPage() {
                             <RadioGroup
                               onValueChange={field.onChange}
                               defaultValue={field.value}
-                              className="flex space-x-6"
+                              className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6"
                             >
                               <FormItem className="flex items-center space-x-3">
                                 <FormControl>

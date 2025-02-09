@@ -45,14 +45,14 @@ export default function SuperMarketLayout({ children }: { children: React.ReactN
       <aside className="hidden md:flex bg-white shadow-lg w-64 flex-col h-screen sticky top-0">
         {/* Logo Section */}
         <div className="p-6 bg-gradient-to-b from-pink-50 to-transparent">
-          <span
+        <Link href={"/"}><span
             className={cn(
               "block text-center text-2xl bg-clip-text text-transparent bg-gradient-to-r from-[#FF9933] via-blue-500/80 to-[#138808]",
               pacifico.className,
             )}
           >
             {projectname}
-          </span>
+          </span></Link>
         </div>
 
         {/* User Profile Section */}

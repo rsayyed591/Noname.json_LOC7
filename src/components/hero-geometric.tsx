@@ -44,7 +44,7 @@ export default function HeroGeometric({
       <div className="absolute inset-0 bg-gradient-to-b from-[#FF9933]/50 via-white/70 to-[#138808]/50 opacity-80"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center">
+      <div className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center">
         <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white drop-shadow-lg">
             <span className="bg-clip-text text-transparent bg-gradient-to-b from-black to-black/80">{title1}</span>
@@ -66,10 +66,21 @@ export default function HeroGeometric({
           </p>
         </motion.div>
 
-        <motion.div custom={3} variants={fadeUpVariants} initial="hidden" animate="visible">
-          <Link href="/signin">
+        <motion.div 
+          custom={3} 
+          variants={fadeUpVariants} 
+          initial="hidden" 
+          animate="visible" 
+          className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full"
+        >
+          <Link href="/ngosignup">
             <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#138808] hover:bg-[#0d6604] text-white shadow-xl transition-all duration-300">
-              Get Started
+              Get Started as NGO
+            </Button>
+          </Link>
+          <Link href="/restaurantsignup">
+            <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#880808] hover:bg-[#660404] text-white shadow-xl transition-all duration-300">
+              Get Started as Restaurant
             </Button>
           </Link>
         </motion.div>
