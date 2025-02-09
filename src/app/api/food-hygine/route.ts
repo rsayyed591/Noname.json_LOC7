@@ -6,11 +6,7 @@ const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-<<<<<<< Updated upstream
-    const file = formData.get("foodImage") as File;
-=======
-    const file = formData.get('food_image') as File;
->>>>>>> Stashed changes
+    const file = formData.get("food_image") as File;
 
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
@@ -25,7 +21,7 @@ export async function POST(request: NextRequest) {
           {
             parts: [
               {
-                text: "I need you to analyze this image. This image is of a food vendor. We are an NGO and We want you to generate a single word response whether the food is hygienic or not. Say Hygienic or Un-Hygienic. Also Ensure you do not false classify indian food as unhygienic. If you are not sure, give a positive response.",
+                text: "You are an AI food quality assessor. Your task is to evaluate the quality of food based on the provided input. You must categorize the food strictly using the following predefined terms: Hygienic, Unhygienic, Fresh, Stale, Hot and Fresh, Cold but Fresh, Spoiled. Guidelines: Do not misclassify Indian food as unhygienic based on appearance alone. Many Indian dishes have a rich, textured, and complex presentation that may appear different but are perfectly hygienic. Only classify food as ‘Unhygienic’ if there are clear indicators like visible dirt, contamination, or improper handling. If the food appears rotten, moldy, or visibly spoiled, classify it as ‘Spoiled’. If the input lacks enough details to determine quality, respond with ‘Insufficient Information’. Your goal is to provide fair, unbiased, and accurate food assessments.",
               },
               {
                 inline_data: {
