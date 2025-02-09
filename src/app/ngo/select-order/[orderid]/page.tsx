@@ -81,7 +81,7 @@ export default function OrderDetails() {
     const fetchDonations = async () => {
       try {
         const response = await APIservice.detailsDonations(orderid)
-        setOrderDetails(response.data)
+        setOrderDetails(response.data.donations)
         console.log("Order Details:", response.data)
         setLoading(false)
       } catch (error) {
