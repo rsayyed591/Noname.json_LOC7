@@ -41,10 +41,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-      }}
+      // Removed custom components as they are not recognized properties
       {...props}
     />
   )

@@ -184,7 +184,7 @@ export default function AdminDashboard() {
                 </Select>
                 <Calendar
                   mode="single"
-                  selected={busyDays}
+                  selected={busyDays[0]}
                   className="rounded-md border"
                 />
               </div>
