@@ -18,6 +18,7 @@ export default function Page() {
         address2: "",
         city: "",
         state: "",
+        mobile_number: "",
         name:"",
         pancard: null,
     })
@@ -46,6 +47,7 @@ export default function Page() {
     const handleSubmitStep2 = (e: React.FormEvent) => {
         e.preventDefault()
         const FormsData = new FormData()
+        FormsData.append("mobile_number", `${formData.mobile_number}`)  
         FormsData.append("darpanId", `${formData.darpanid}`)
         FormsData.append("name", `${formData.name}`)
         FormsData.append("address", `${formData.address1}, ${formData.address2}, ${formData.city}, ${formData.state}`)
@@ -72,10 +74,10 @@ export default function Page() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
             <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
                 <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-                    {step === 1 ? "Sign In" : "NGO Details"}
+                    {step === 1 ? "Sign Up" : "NGO Details"}
                 </h1>
 
                 {step === 1 ? (
@@ -97,6 +99,10 @@ export default function Page() {
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Name</label>
                             <Input type="text" name="name" placeholder="Enter Name" value={formData.name} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">mobile</label>
+                            <Input type="text" name="mobile_number" placeholder="Enter mobile" value={formData.mobile_number} onChange={handleChange} />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Darpan ID</label>
@@ -131,7 +137,7 @@ export default function Page() {
             </div>
             <div className="text-center mt-4">
                 <Link href="/restaurantsignup" className="text-teal-500 hover:underline">
-                    Don't have an account? Sign up here
+                    Go to restaurant sign up!
                 </Link>
             </div>
         </div>

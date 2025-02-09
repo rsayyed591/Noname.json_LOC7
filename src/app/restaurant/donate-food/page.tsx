@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Leaf, Sandwich, Wheat } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-
+import APIservice from "@/api/api";
 import { Button } from "@/components/ui/button";
+import {useRouter} from "next/navigation";
 import {
   Card,
   CardContent,
@@ -35,7 +36,7 @@ import {
 
 export default function DonateFoodPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const router = useRouter();
   const form = useForm<DonateFormValues>({
     resolver: zodResolver(donateFormSchema),
     defaultValues: {
@@ -48,14 +49,14 @@ export default function DonateFoodPage() {
 
   async function onSubmit(data: DonateFormValues) {
     const formData = new FormData();
-    formData.append("foodName", data.foodName);
-    formData.append("quantity", data.quantity);
-    formData.append("peopleCount", data.peopleCount);
-    formData.append("foodType", data.foodType);
+    formData.append("food_name", data.foodName);
+    formData.append("food_quantity", data.quantity);
+    formData.append("no_of_people", data.peopleCount);
+    formData.append("food_type", data.foodType);
 
     const foodImage = form.getValues("foodImage");
     if (foodImage) {
-      formData.append("foodImage", foodImage);
+      formData.append("food_image", foodImage);
     }
 
     //also hit the gemini api endpoint in the api/donate-food route with the image
@@ -65,12 +66,9 @@ export default function DonateFoodPage() {
     });
     console.log(response)
 
-    await fetch("/api/donate-food", {
-      method: "POST",
-      body: formData,
-    });
-
-    console.log(data);
+    const response2 = await APIservice.foodDonationAdd(formData);
+    router.push("/restaurant")
+    console.log(response2.data);
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

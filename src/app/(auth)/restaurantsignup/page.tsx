@@ -19,8 +19,9 @@ export default function Page() {
         city: "",
         state: "",
         gstin: "",
+        mobile_number: "",
+        type:"",
         pancard: null,
-        restaurantImage: null,
         fssaiLicense: null,
     })
 
@@ -35,62 +36,43 @@ export default function Page() {
     const handleSubmitStep1 = async(e: React.FormEvent) => {
         e.preventDefault()
 
-        const response = APIservice.registerUser(JSON.stringify({
+        const response = await APIservice.registerUser(JSON.stringify({
             email: formData.email,
             password: formData.password,
             role: "restaurant",
         }))
-        response.then((data:any) => {
-
-            if (data.token) {
-            localStorage.setItem("token", data.token)
-            const t=localStorage.getItem("token")
-            console.log(t)
-            setStep(2)
-            } else {
-            alert("Authentication failed")
-            }
-        }).catch((error:any) => {
-            console.error("Error:", error)
-        })
+        console.log(response.data)
+        localStorage.setItem("token", response.data.token)  
         setStep(2)
     }
 
-    const handleSubmitStep2 = (e: React.FormEvent) => {
+    const handleSubmitStep2 = async (e: React.FormEvent) => {
         e.preventDefault()
         const FormsData = new FormData()
+        FormsData.append("mobile_number", formData.mobile_number)
         FormsData.append("name", formData.restaurantName)
         FormsData.append("gstin", formData.gstin)
+        FormsData.append("type","VEG" )
         FormsData.append("address", `${formData.address1}, ${formData.address2}, ${formData.city}, ${formData.state}`)
         if (formData.pancard) {
             FormsData.append("pancard", formData.pancard as Blob)
         }
-        if (formData.restaurantImage) {
-            FormsData.append("image", `${formData.restaurantImage}`)
-        }
+        
         if (formData.fssaiLicense) {
-            FormsData.append("fssaiLicense", formData.fssaiLicense)
+            FormsData.append("fssai_file", formData.fssaiLicense as Blob)
         }
         const token = localStorage.getItem("token")
         
-        const response = APIservice.profileDataNGO(FormsData,token)
-        response.then((data:any) => {
-            if (data) {
-                router.push("/restaurant")
-            setStep(2)
-            } else {
-            alert("Authentication failed")
-            }
-        }).catch((error:any) => {
-            console.error("Error:", error)
-        })
+        const response = await APIservice.profileDataDonor(FormsData,token)
+        router.push("/restaurant")
+        
     }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
             <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
                 <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-                    {step === 1 ? "Sign In" : "Restaurant Details"}
+                    {step === 1 ? "Sign Up" : "Restaurant Details"}
                 </h1>
 
                 {step === 1 ? (
@@ -112,6 +94,10 @@ export default function Page() {
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Restaurant Name</label>
                             <Input type="text" name="restaurantName" placeholder="Enter Restaurant Name" value={formData.restaurantName} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
+                            <Input type="text" name="mobile_number" placeholder="Enter Restaurant Name" value={formData.mobile_number} onChange={handleChange} />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Address Line 1</label>
@@ -138,7 +124,6 @@ export default function Page() {
 
                         <div className="space-y-3">
                             <FileUpload onFileSelect={(file) => handleFileChange("pancard", file)} label="Upload PAN Card" />
-                            <FileUpload onFileSelect={(file) => handleFileChange("restaurantImage", file)} label="Upload Restaurant Image" />
                             <FileUpload onFileSelect={(file) => handleFileChange("fssaiLicense", file)} label="Upload FSSAI License (PDF)" />
                         </div>
                         

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
+import APIservice from "@/api/api"  
 interface Agent {
   id: string
   name: string
@@ -53,7 +53,8 @@ export default function DeliveryAgent() {
 
   const filteredAgents = agents.filter((agent) => agent.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
-  const handleAddAgent = () => {
+  const handleAddAgent = async() => {
+    const response=await APIservice.deliveryAgentAdd({"name":newAgent.name,"password":newAgent.password}) 
     if (newAgent.name) {
       const newAgentData: Agent = {
         id: (agents.length + 1).toString(),

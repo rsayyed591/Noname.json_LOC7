@@ -1,37 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { WobbleCard } from "@/components/ngo/wobble-card"
-
-// Sample data - replace with API call
-const restaurants = [
-  {
-    id: "1",
-    name: "Vivek Restaurant",
-    foodName: "Mixed Vegetables",
-    quantity: "10kg",
-    peopleCount: 10,
-    rating: "excellent",
-    aiQuality: "Fresh and well-preserved",
-    imageUrl: "/ngo/mixedveg.jpg",
-    foodType: "veg",
-    description: "Fresh vegetables from today's stock",
-  },
-  {
-    id: "2",
-    name: "Nishi Restaurant",
-    foodName: "Chicken Biryani",
-    quantity: "12kg",
-    peopleCount: 12,
-    rating: "excellent",
-    aiQuality: "Very tasty and well-cooked",
-    imageUrl: "/ngo/biryani.jpg",
-    foodType: "non-veg",
-    description: "Freshly cooked chicken biryani",
-  },
-]
+import  APIservice  from "@/api/api"
+interface Donation {
+  donation_id: string
+  doner_id: string
+  food_name: string
+  quantity: number
+  food_image: string
+  type: string
+  no_of_people: number
+  location_of_food: {
+    lat: number
+    lon: number
+  }
+  id: string
+}
 
 const getFoodTypeColor = (type: string) => {
   switch (type.toLowerCase()) {
@@ -48,7 +35,26 @@ const getFoodTypeColor = (type: string) => {
 
 export default function SelectOrder() {
   const router = useRouter()
-  const [loading] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [donations, setDonations] = useState<Donation[]>([])
+
+  useEffect(() => {
+    const fetchDonations = async () => {
+      try {
+        const lat = "18.93248"
+        const lon = "72.83152"
+        const distance = "10 "
+        const response = await APIservice.getDonations({lat, lon, distance})
+        setDonations(response.data.donations)
+      } catch (error) {
+        console.error("Error fetching donations:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDonations()
+  }, [])
 
   const handleCardClick = (id: string) => {
     router.push(`/ngo/select-order/${id}`)
@@ -59,31 +65,30 @@ export default function SelectOrder() {
       <h1 className="text-3xl font-bold mb-6">Select Order</h1>
 
       {loading ? (
-        <p>Loading restaurants...</p>
+        <p>Loading donations...</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {restaurants.map((restaurant) => (
-            <WobbleCard key={restaurant.id}>
+          {donations?.map((donation) => (
+            <WobbleCard key={donation.donation_id}>
               <Card
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleCardClick(restaurant.id)}
+                onClick={() => handleCardClick(donation.donation_id)}
               >
                 <div className="relative h-48">
                   <img
-                    src={restaurant.imageUrl || "/placeholder.svg"}
-                    alt={restaurant.name}
+                    src={"https://43d4-14-139-125-227.ngrok-free.app/"+donation.food_image || "/placeholder.svg"}
+                    alt={donation.food_name}
                     className="w-full h-full object-cover rounded-t-lg"
                   />
                 </div>
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold">{restaurant.name}</h3>
-                  <p className={`text-sm ${getFoodTypeColor(restaurant.foodType)}`}>
-                    {restaurant.foodType.toUpperCase()}
-                  </p>
-                  <p className="mt-2">Food: {restaurant.foodName}</p>
-                  <p>Quantity: {restaurant.quantity}</p>
-                  <p>Serves: {restaurant.peopleCount} people</p>
-                  <div className="mt-2 text-sm text-gray-600">AI Quality: {restaurant.aiQuality}</div>
+                  <h3 className="text-xl font-semibold">{donation.food_name}</h3>
+                  <p className={`text-sm ${getFoodTypeColor(donation.type)}`}>{donation.type.toUpperCase()}</p>
+                  <p className="mt-2">Quantity: {donation.quantity} kg</p>
+                  <p>Serves: {donation.no_of_people} people</p>
+                  <div className="mt-2 text-sm text-gray-600">
+                    Location: {donation.location_of_food.lat.toFixed(4)}, {donation.location_of_food.lon.toFixed(4)}
+                  </div>
                 </div>
               </Card>
             </WobbleCard>
