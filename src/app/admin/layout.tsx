@@ -8,13 +8,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Pacifico } from "next/font/google"
 import { cn } from "@/lib/utils"
+import { Toaster } from "sonner"
 
 const projectname = "अन्नSampark"
 const pacifico = Pacifico({
   weight: "400",
   subsets: ["latin"],
 })
-const ngo = {ngoname:"DEDO NGO", ngopfp:"/ngo/pfp.jpg"}
+const admin = {adminname:"Admin", adminpfp:"/admin/pfp.jpg"}
 
 const navItems = [
   { label: "Dashboard", icon: Home, href: "/admin" },
@@ -23,7 +24,7 @@ const navItems = [
   { label: "Add a Res.", icon: Soup, href: "/admin/add-restaurant" },
 ]
 
-export default function NgoLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -58,10 +59,10 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
         {/* User Profile Section */}
         <div className="flex flex-col items-center p-6">
           <Avatar className="h-32 w-32">
-            <AvatarImage src={ngo.ngopfp} alt="User" />
-            <AvatarFallback>NGO</AvatarFallback>
+            <AvatarImage src={admin.adminpfp} alt="User" />
+            <AvatarFallback>Admin</AvatarFallback>
           </Avatar>
-          <p className="mt-4 text-lg font-bold">Welcome, {ngo.ngoname}</p>
+          <p className="mt-4 text-lg font-bold">Welcome, {admin.adminname}</p>
         </div>
 
         {/* Navigation */}
@@ -96,6 +97,7 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <main className="flex-1 min-h-screen">
+        <Toaster />
         {/* Mobile Header */}
         {isMobile && (
           <header className="sticky top-0 z-10 bg-white shadow-sm p-4 flex items-center justify-between">
@@ -108,7 +110,7 @@ export default function NgoLayout({ children }: { children: React.ReactNode }) {
               {projectname}
             </span>
             <Avatar className="h-8 w-8">
-              <AvatarImage src={ngo.ngopfp} alt="User" />
+              <AvatarImage src={admin.adminpfp} alt="User" />
               <AvatarFallback>UN</AvatarFallback>
             </Avatar>
           </header>

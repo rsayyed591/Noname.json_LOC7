@@ -16,8 +16,8 @@ const restaurants = [
     phone: "+91 9876543210",
     address: "15 Park Street, Mumbai",
     gstn: "27AAPFU0939F1ZV",
-    fssaiDoc: "/docs/fssai.pdf",
-    panCard: "/docs/pancard.pdf",
+    fssaiDoc: "/admin/ps.pdf",
+    panCard: "/admin/ps.pdf",
   },
   // Add more restaurants
 ]
@@ -26,7 +26,7 @@ export default function Restaurants() {
   const [selectedRestaurant, setSelectedRestaurant] = useState<(typeof restaurants)[0] | null>(null)
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto pb-16 max-w-xs">
       <h1 className="text-3xl font-bold mb-6">Restaurants</h1>
 
       <div className="border rounded-lg">

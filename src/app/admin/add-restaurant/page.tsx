@@ -1,6 +1,6 @@
 "use client"
+
 import Link from "next/link"
-// import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 
@@ -10,37 +10,40 @@ const restaurantRequests = [
     id: "1",
     name: "Spice Garden",
     foodType: "North Indian",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/admin/spice-garden.jpg",
     address: "15 Park Street, Mumbai",
     gstn: "27AAPFU0939F1ZV",
-    fssaiDoc: "/docs/fssai.pdf",
-    panCard: "/docs/pancard.pdf",
+    fssaiDoc: "/admin/ps.pdf",
+    panCard: "/admin/ps.pdf",
     phone: "+91 9876543210",
   },
   {
     id: "2",
     name: "Green Leaf",
     foodType: "Pure Veg",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/admin/green-leaf.jpg",
     address: "22 MG Road, Bangalore",
     gstn: "29AALFG2045P1ZR",
-    fssaiDoc: "/docs/fssai.pdf",
-    panCard: "/docs/pancard.pdf",
+    fssaiDoc: "/admin/ps.pdf",
+    panCard: "/admin/ps.pdf",
     phone: "+91 9876543211",
   },
-  // Add more restaurant requests as needed
 ]
 
 export default function AddRestaurant() {
-  // const router = useRouter()
-
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto pb-16">
       <h1 className="text-3xl font-bold mb-6">Restaurant Requests</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {restaurantRequests.map((restaurant) => (
-          <Link key={restaurant.id} href={`/admin/add-restaurant/${restaurant.id}`} target="_blank">
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+          <Link 
+            key={restaurant.id} 
+            href={{
+              pathname: `/admin/add-restaurant/${restaurant.id}`,
+              query: restaurant,
+            }}
+          >
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
               <div className="relative h-48">
                 <Image
                   src={restaurant.image || "/placeholder.svg"}
@@ -60,4 +63,3 @@ export default function AddRestaurant() {
     </div>
   )
 }
-

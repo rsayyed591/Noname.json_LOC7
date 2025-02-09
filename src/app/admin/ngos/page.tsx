@@ -14,7 +14,7 @@ const ngos = [
     image: "/placeholder.svg?height=40&width=40",
     phone: "+91 9876543210",
     address: "45 Civil Lines, Delhi",
-    panCard: "/docs/pancard.pdf",
+    panCard: "/admin/ps.pdf",
   },
   // Add more NGOs
 ]
@@ -23,11 +23,11 @@ export default function NGOs() {
   const [selectedNGO, setSelectedNGO] = useState<(typeof ngos)[0] | null>(null)
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto pb-16 max-w-xs">
       <h1 className="text-3xl font-bold mb-6">NGOs</h1>
 
-      <div className="border rounded-lg">
-        <Table>
+      <div className="border rounded-lg overflow-x-auto">
+        <Table className="min-w-full">
           <TableHeader>
             <TableRow>
               <TableHead>NGO</TableHead>
@@ -38,7 +38,7 @@ export default function NGOs() {
           <TableBody>
             {ngos.map((ngo) => (
               <TableRow key={ngo.id}>
-                <TableCell className="flex items-center gap-3">
+                <TableCell className="flex items-center gap-2">
                   <Avatar>
                     <AvatarImage src={ngo.image} alt={ngo.name} />
                     <AvatarFallback>{ngo.name[0]}</AvatarFallback>
@@ -94,4 +94,3 @@ export default function NGOs() {
     </div>
   )
 }
-
