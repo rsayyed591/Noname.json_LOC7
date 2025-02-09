@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,6 +46,8 @@ export default function DonateFoodPage() {
     },
   });
 
+ 
+
   async function onSubmit(data: DonateFormValues) {
     const formData = new FormData();
     formData.append("food_name", data.foodName);
@@ -64,8 +65,9 @@ export default function DonateFoodPage() {
       method: "POST",
       body: formData,
     });
-    console.log(response)
+    const responseData = await response.json(); 
 
+    formData.append("ai_based_quality", responseData.analysis);
     const response2 = await APIservice.foodDonationAdd(formData);
     router.push("/restaurant")
     console.log(response2.data);

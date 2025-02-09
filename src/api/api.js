@@ -17,6 +17,7 @@ const api2 = axios.create({
 
 const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 const ngotoken = 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoibmdvIiwidXNlcl9pZCI6IjE3ODU4NTBmLTliMTAtNDI3Mi04MzY1LWExNzBhNTliNDFkZCIsImlhdCI6MTczOTA2MzkwMSwiZXhwIjoxNzQxNjU1OTAxfQ.WTSZNmeh_pv5sE_SE-zgU5qN0vo1Qx0e8_yxdLH32dw'
+const donortoken = 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicmVzdGF1cmFudCIsInVzZXJfaWQiOiJhMTkzNThhNi1kMDU2LTQ5NzgtYmM0YS1lMjI0NTg0ZTE1MDUiLCJpYXQiOjE3MzkwNzEwMjEsImV4cCI6MTc0MTY2MzAyMX0.-106m3I7hze_nfzi3006DEQMxZJR2qUVqajqW1iXPcg'
 const APIservice = {
   registerUser: (data) =>
     api.post("/auth/register_user",data,  {
@@ -47,7 +48,7 @@ const APIservice = {
   foodDonationAdd: (data) =>
     api.post("donation/create_donation", data, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${donortoken}`,
        "Content-Type": "multipart/form-data",
       },
     }),
@@ -63,6 +64,20 @@ const APIservice = {
       headers: {
         "Authorization": `Bearer ${ngotoken}`,
        "Content-Type": "application/json",
+      },
+    }),
+  listDeliveryAgents: () =>
+    api.post("delivery_partner/get_partners","", {
+      headers: {
+        "Authorization": `Bearer ${ngotoken}`,
+       "Content-Type": "application/json",
+      },
+    }),
+  detailsDonations: (orderid) =>
+    api.get("donation/get_details/"+orderid, {
+      headers: {
+        "Authorization": `Bearer ${ngotoken}`,
+       "ngrok-skip-browser-warning": "69420"
       },
     }),
   }
