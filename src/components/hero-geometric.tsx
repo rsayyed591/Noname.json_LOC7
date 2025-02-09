@@ -74,7 +74,7 @@ export default function HeroGeometric({
           className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full"
         >
           <Link href="/restaurantsignup">
-            <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#883b08] hover:bg-[#660404] text-white shadow-xl transition-all duration-300">
+            <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#e1732a] hover:bg-[#ff8330] text-white shadow-xl transition-all duration-300">
               Get Started as Restaurant
             </Button>
           </Link>

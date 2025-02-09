@@ -54,29 +54,124 @@ India faces a **paradox** where nearly **40% of food produced** goes to waste, w
 ```
 noname.json_loc7/
 ├── .gitignore
-├── .next/ (ignored)
+├─] .next/ (ignored)
 ├── components.json
+├── eslint.config.mjs
+├── image-qaqNbpVP0TjsGZxpeaDnxgsHqxao8C.avif
+├─] next-env.d.ts (ignored)
+├── next.config.ts
+├─] node_modules/ (ignored)
+├── package-lock.json
 ├── package.json
+├── postcss.config.mjs
 ├── public/
 │   ├── admin/
-│   ├── ngo/
-│   ├── restaurant/
 │   ├── bg.jpg
-│   └── pfp.jpg
+│   ├── ngo/
+│   └── restaurant/
 ├── README.md
 ├── src/
 │   ├── api/
+│   │   └── api.js
 │   ├── app/
-│   │   ├── (auth)/ngosignup/
-│   │   ├── (auth)/restaurantsignup/
-│   │   ├── (auth)/signin/
+│   │   ├── (auth)/
+│   │   │   ├── ngosignup/
+│   │   │   │   └── page.tsx
+│   │   │   ├── restaurantsignup/
+│   │   │   │   └── page.tsx
+│   │   │   └── signin/
+│   │   │       └── page.tsx
 │   │   ├── admin/
+│   │   │   ├── add-restaurant/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [id]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── ngos/
+│   │   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── restaurants/
+│   │   │       └── page.tsx
+│   │   ├── api/
+│   │   │   └── food-hygine/
+│   │   │       └── route.ts
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
 │   │   ├── ngo/
+│   │   │   ├── delivery-agent/
+│   │   │   │   └── page.tsx
+│   │   │   ├── delivery-route/
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── previous-donations/
+│   │   │   │   └── page.tsx
+│   │   │   └── select-order/
+│   │   │       ├── page.tsx
+│   │   │       └── [orderid]/
+│   │   │           └── page.tsx
+│   │   ├── page.tsx
 │   │   ├── restaurant/
-│   │   ├── supermarket/
+│   │   │   ├── donate-food/
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── previous-donations/
+│   │   │       └── page.tsx
+│   │   └── supermarket/
+│   │       ├── donate-food/
+│   │       │   └── page.tsx
+│   │       ├── layout.tsx
+│   │       ├── page.tsx
+│   │       └── previous-donations/
+│   │           └── page.tsx
 │   ├── components/
-│   ├── lib/
-│   └── utils.ts
+│   │   ├── admin/
+│   │   │   ├── RestaurantDetails.tsx
+│   │   │   └── stats-card.tsx
+│   │   ├── hero-geometric.tsx
+│   │   ├── ngo/
+│   │   │   ├── MobileNav.tsx
+│   │   │   ├── restaurant-skeleton.tsx
+│   │   │   ├── stats-card.tsx
+│   │   │   └── wobble-card.tsx
+│   │   ├── restaurant/
+│   │   │   ├── bar-chart.tsx
+│   │   │   ├── donation-card.tsx
+│   │   │   ├── donation-details-modal.tsx
+│   │   │   ├── line-chart.tsx
+│   │   │   ├── MobileNav.tsx
+│   │   │   └── stats-card.tsx
+│   │   ├── supermarket/
+│   │   │   └── MobileNav.tsx
+│   │   └── ui/
+│   │       ├── avatar.tsx
+│   │       ├── badge.tsx
+│   │       ├── button.tsx
+│   │       ├── calendar.tsx
+│   │       ├── card.tsx
+│   │       ├── dialog.tsx
+│   │       ├── FileUpload.tsx
+│   │       ├── form.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── progress.tsx
+│   │       ├── radio-group.tsx
+│   │       ├── select.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── sonner.tsx
+│   │       ├── switch.tsx
+│   │       ├── table.tsx
+│   │       └── textarea.tsx
+│   └── lib/
+│       ├── schemas/
+│       │   └── donate-food-schema.tsx
+│       ├── service/
+│       │   └── donation.ts
+│       ├── types/
+│       │   └── donation.ts
+│       └── utils.ts
 ├── tailwind.config.ts
 └── tsconfig.json
 ```
@@ -124,5 +219,4 @@ Want to contribute? **Pull requests are welcome!**
 This project is licensed under the **MIT License**.  
 
 ---
-💡 **Let’s work together to reduce food waste and feed millions in India!** 🇮🇳  
-```
+💡 **Let’s work together to reduce food waste and feed millions in India!** 🇮🇳
