@@ -65,6 +65,7 @@ const orderStats = [
 
 // Wobble card component
 import { ReactNode, MouseEventHandler } from "react";
+import { AIAnalytics } from "@/components/restaurant/ai-analytics"
 
 const WobbleCard = ({ children, onClick }: { children: ReactNode; onClick: MouseEventHandler<HTMLDivElement> }) => {
   return (
@@ -140,31 +141,8 @@ export default function Restaurant() {
 
         {/* Published Orders List Section */}
         <div>
-          <h3 className="text-lg font-medium mb-4">Published Orders</h3>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {publishedOrdersList.map((order) => (
-              <WobbleCard key={order.id} onClick={() => setSelectedPublishedOrder(order)}>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <h4 className="font-semibold">{order.foodType}</h4>
-                    <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
-                      {order.status}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">Items: {order.items.join(", ")}</p>
-                  <p className="text-sm text-gray-600">Quantity: {order.quantity}</p>
-                  <p className="text-sm text-gray-600">
-                    Published: {new Date(order.publishedAt).toLocaleString()}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Expires: {new Date(order.expiryTime).toLocaleString()}
-                  </p>
-                </div>
-              </WobbleCard>
-            ))}
-          </div>
+          <AIAnalytics />
         </div>
-
         {/* Order Stats Section */}
         <div>
           <h3 className="text-lg font-medium mb-4">Order Stats</h3>
