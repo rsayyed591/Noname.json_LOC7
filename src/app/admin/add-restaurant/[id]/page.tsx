@@ -11,8 +11,8 @@ const restaurantRequests = [
     image: "/admin/spice-garden.jpg",
     address: "15 Park Street, Mumbai",
     gstn: "27AAPFU0939F1ZV",
-    fssaiDoc: "/docs/fssai.pdf",
-    panCard: "/docs/pancard.pdf",
+    fssaiDoc: "/admin/ps.pdf",
+    panCard: "/admin/ps.pdf",
     phone: "+91 9876543210",
   },
   {
@@ -22,8 +22,8 @@ const restaurantRequests = [
     image: "/admin/green-leaf.jpg",
     address: "22 MG Road, Bangalore",
     gstn: "29AALFG2045P1ZR",
-    fssaiDoc: "/docs/fssai.pdf",
-    panCard: "/docs/pancard.pdf",
+    fssaiDoc: "/admin/ps.pdf",
+    panCard: "/admin/ps.pdf",
     phone: "+91 9876543211",
   },
 ]

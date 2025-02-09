@@ -23,7 +23,7 @@ export default function NGOs() {
   const [selectedNGO, setSelectedNGO] = useState<(typeof ngos)[0] | null>(null)
 
   return (
-    <div className="container mx-auto pb-16 max-w-xs">
+    <div className="container mx-auto pb-16 max-w-xs md:max-w-2xl lg:max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">NGOs</h1>
 
       <div className="border rounded-lg overflow-x-auto">
