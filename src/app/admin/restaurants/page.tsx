@@ -1,77 +1,32 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, Search, X } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-interface Agent {
-  id: string
-  name: string
-  stars: number
-  image: string
-}
+// Sample data - replace with API call
+const restaurants = [
+  {
+    id: "1",
+    name: "Spice Garden",
+    image: "/placeholder.svg?height=40&width=40",
+    foodType: "North Indian",
+    phone: "+91 9876543210",
+    address: "15 Park Street, Mumbai",
+    gstn: "27AAPFU0939F1ZV",
+    fssaiDoc: "/docs/fssai.pdf",
+    panCard: "/docs/pancard.pdf",
+  },
+  // Add more restaurants
+]
 
-const agentsData = {
-  "agents": [
-    {
-      "id": "1",
-      "name": "Vivek Chouhan",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    },
-    {
-      "id": "2",
-      "name": "Rahul Kumar",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    },
-    {
-      "id": "3",
-      "name": "Priya Singh",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    },
-    {
-      "id": "4",
-      "name": "Amit Patel",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    }
-  ]
-}
-
-
-export default function DeliveryAgent() {
-  const [agents, setAgents] = useState<Agent[]>(agentsData.agents)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [newAgent, setNewAgent] = useState({ name: "", image: "", password: "" })
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-
-  const filteredAgents = agents.filter((agent) => agent.name.toLowerCase().includes(searchQuery.toLowerCase()))
-
-  const handleAddAgent = () => {
-    if (newAgent.name) {
-      const newAgentData: Agent = {
-        id: (agents.length + 1).toString(),
-        name: newAgent.name,
-        stars: 4,
-        image: newAgent.image || "/ngo/delivery-agent.jpg",
-      }
-      setAgents([...agents, newAgentData])
-      setNewAgent({ name: "", image: "", password: "" })
-      setIsDialogOpen(false)
-    }
-  }
-
-  const handleDeleteAgent = (id: string) => {
-    setAgents(agents.filter((agent) => agent.id !== id))
-  }
+export default function Restaurants() {
+  const [selectedRestaurant, setSelectedRestaurant] = useState<(typeof restaurants)[0] | null>(null)
 
   return (
+<<<<<<< Updated upstream
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
       <div className="flex items-center justify-between space-y-2">
@@ -118,49 +73,87 @@ export default function DeliveryAgent() {
             <Button onClick={handleAddAgent}>Add Agent</Button>
           </DialogContent>
         </Dialog>
+=======
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6">Restaurants</h1>
+
+      <div className="border rounded-lg">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Restaurant</TableHead>
+              <TableHead>Food Type</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {restaurants.map((restaurant) => (
+              <TableRow key={restaurant.id}>
+                <TableCell className="flex items-center gap-3">
+                  <Avatar>
+                    <AvatarImage src={restaurant.image} alt={restaurant.name} />
+                    <AvatarFallback>{restaurant.name[0]}</AvatarFallback>
+                  </Avatar>
+                  {restaurant.name}
+                </TableCell>
+                <TableCell>{restaurant.foodType}</TableCell>
+                <TableCell>
+                  <Button variant="ghost" onClick={() => setSelectedRestaurant(restaurant)}>
+                    View Details
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+>>>>>>> Stashed changes
       </div>
 
-      <div className="p-4 rounded-lg">
-        <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
-          <Input
-            className="pl-9 bg-gray-300 border-none"
-            placeholder="Search agents..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <div className="mt-4 space-y-2">
-          {filteredAgents.map((agent) => (
-            <div key={agent.id} className="flex items-center justify-between border border-emerald-400 p-4 rounded-lg">
-              <div className="flex items-center space-x-4">
-                <Avatar>
-                  <AvatarImage src={agent.image} alt={agent.name} />
-                  <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
+      <Dialog open={!!selectedRestaurant} onOpenChange={() => setSelectedRestaurant(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Restaurant Details</DialogTitle>
+          </DialogHeader>
+          {selectedRestaurant && (
+            <div className="grid gap-4">
+              <div className="flex items-center gap-4">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src={selectedRestaurant.image} alt={selectedRestaurant.name} />
+                  <AvatarFallback>{selectedRestaurant.name[0]}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">
-                    {agent.name} 
-                  </p>
-                  <div className="flex items-center">
-                    <span className="mr-1">{agent.stars} stars</span>
-                    ⭐
-                  </div>
+                  <h3 className="font-semibold text-lg">{selectedRestaurant.name}</h3>
+                  <p className="text-muted-foreground">{selectedRestaurant.foodType}</p>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-red-500 hover:text-red-700 hover:bg-red-100"
-                onClick={() => handleDeleteAgent(agent.id)}
-              >
-                <X className="h-5 w-5" />
-              </Button>
+
+              <div className="grid gap-2">
+                <p>
+                  <span className="font-medium">Phone:</span> {selectedRestaurant.phone}
+                </p>
+                <p>
+                  <span className="font-medium">Address:</span> {selectedRestaurant.address}
+                </p>
+                <p>
+                  <span className="font-medium">GSTN:</span> {selectedRestaurant.gstn}
+                </p>
+                <div className="flex gap-4">
+                  <Button variant="outline" asChild>
+                    <a href={selectedRestaurant.fssaiDoc} target="_blank" rel="noopener noreferrer">
+                      View FSSAI
+                    </a>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <a href={selectedRestaurant.panCard} target="_blank" rel="noopener noreferrer">
+                      View PAN Card
+                    </a>
+                  </Button>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
