@@ -73,16 +73,17 @@ export default function HeroGeometric({
           animate="visible" 
           className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full"
         >
+          <Link href="/restaurantsignup">
+            <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#883b08] hover:bg-[#660404] text-white shadow-xl transition-all duration-300">
+              Get Started as Restaurant
+            </Button>
+          </Link>
           <Link href="/ngosignup">
             <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#138808] hover:bg-[#0d6604] text-white shadow-xl transition-all duration-300">
               Get Started as NGO
             </Button>
           </Link>
-          <Link href="/restaurantsignup">
-            <Button className="px-8 py-3 text-lg font-semibold rounded-full bg-[#880808] hover:bg-[#660404] text-white shadow-xl transition-all duration-300">
-              Get Started as Restaurant
-            </Button>
-          </Link>
+          
         </motion.div>
       </div>
     </div>
