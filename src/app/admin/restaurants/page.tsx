@@ -26,54 +26,6 @@ export default function Restaurants() {
   const [selectedRestaurant, setSelectedRestaurant] = useState<(typeof restaurants)[0] | null>(null)
 
   return (
-<<<<<<< Updated upstream
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-8">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Resgistered Restaurants</h2>
-      </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-200 hover:bg-blue-300 text-blue-800">
-              <Plus className="mr-2 h-4 w-4" />
-              Add New Restaurants
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Restaurants</DialogTitle>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  value={newAgent.name}
-                  onChange={(e) => setNewAgent({ ...newAgent, name: e.target.value })}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="name">Password</Label>
-                <Input
-                  id="password"
-                  value={newAgent.password}
-                  onChange={(e) => setNewAgent({ ...newAgent, password: e.target.value })}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="image">Profile Image URL</Label>
-                <Input
-                  id="image"
-                  value={newAgent.image}
-                  onChange={(e) => setNewAgent({ ...newAgent, image: e.target.value })}
-                  placeholder="Optional"
-                />
-              </div>
-            </div>
-            <Button onClick={handleAddAgent}>Add Agent</Button>
-          </DialogContent>
-        </Dialog>
-=======
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Restaurants</h1>
 
@@ -106,7 +58,6 @@ export default function Restaurants() {
             ))}
           </TableBody>
         </Table>
->>>>>>> Stashed changes
       </div>
 
       <Dialog open={!!selectedRestaurant} onOpenChange={() => setSelectedRestaurant(null)}>
