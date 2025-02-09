@@ -6,16 +6,12 @@ const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-<<<<<<< Updated upstream
     const file = formData.get("foodImage") as File;
-=======
-    const file = formData.get('food_image') as File;
->>>>>>> Stashed changes
 
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
-
+// updated
     const buffer = await file.arrayBuffer();
     const base64Image = Buffer.from(buffer).toString("base64");
     const response = await axios.post(
