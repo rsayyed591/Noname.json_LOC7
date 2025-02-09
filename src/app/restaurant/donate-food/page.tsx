@@ -61,7 +61,7 @@ export default function DonateFoodPage() {
     }
 
     //also hit the gemini api endpoint in the api/donate-food route with the image
-    const response = await fetch("http://localhost:3000/api/food-hygine", {
+    const response = await fetch("https://annsampark.vercel.app/api/food-hygine", {
       method: "POST",
       body: formData,
     });

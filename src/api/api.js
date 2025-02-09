@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-export const ngrok_url = 'https://43d4-14-139-125-227.ngrok-free.app'
+export const ngrok_url = 'https://4da8-14-139-125-227.ngrok-free.app'
 const api = axios.create({
   baseURL: `${ngrok_url}/`,
   headers: {
       'Content-Type': 'application/json',
   },
 });
-export const ngrok_url2="https://4c02-14-139-125-227.ngrok-free.app"
+export const ngrok_url2="https://c103-14-139-125-227.ngrok-free.app"
 const api2 = axios.create({
   baseURL: `${ngrok_url2}/`,
   headers: {

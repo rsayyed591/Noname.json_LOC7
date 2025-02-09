@@ -92,32 +92,19 @@ export default function OrderDetails() {
     fetchDonations()
   }, [])
 
-  const handleConfirmOrder = async () => {
-    try {
-      const response = await axios.post("https://43d4-14-139-125-227.ngrok-free.app", {
-        donorId: orderDetails.id,
-        partnerId: selectedAgent,
-        dataId: orderDetails.id,
-        quantity: quantity,
-        donationId: orderDetails.id,
-      })
-      if (response.status === 200) {
-        setShowSuccess(true)
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-        })
-        setShowDeliveryAgents(false)
-        // Redirect after 3 seconds
-        setTimeout(() => {
-          router.push("/ngo")
-        }, 3000)
-      }
-    } catch (error) {
-      console.error("Error confirming order:", error)
-      // Handle error (e.g., show error message to user)
-    }
+  const handleConfirmOrder = () => {
+    setShowSuccess(true)
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    })
+    setShowDeliveryAgents(false)
+
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      router.push("/ngo")
+    }, 3000)
   }
 
   const fetchItems = async () => {
@@ -168,7 +155,7 @@ export default function OrderDetails() {
               </div>
               <div className="h-64 w-full rounded-lg overflow-hidden">
                 <img
-                  src={`https://43d4-14-139-125-227.ngrok-free.app/${orderDetails.foodImage}` || "/placeholder.svg"}
+                  src={`https://4da8-14-139-125-227.ngrok-free.app/${orderDetails.foodImage}` || "/placeholder.svg"}
                   alt={orderDetails.foodName}
                   className="w-full h-full object-cover"
                 />

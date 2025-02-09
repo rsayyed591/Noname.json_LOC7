@@ -12,7 +12,7 @@
   
 export async function fetchAIAnalytics(): Promise<{ analysis: string }> {
     try {
-      const response = await fetch('https://4c02-14-139-125-227.ngrok-free.app/get_analytics');
+      const response = await fetch('https://c103-14-139-125-227.ngrok-free.app/get_analytics');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
