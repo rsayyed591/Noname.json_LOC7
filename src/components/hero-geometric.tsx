@@ -61,7 +61,7 @@ export default function HeroGeometric({
         </motion.div>
 
         <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
-          <p className="text-lg sm:text-xl md:text-2xl text-white drop-shadow-lg mb-8 leading-relaxed font-light tracking-wide max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-black drop-shadow-lg mb-8 leading-relaxed font-light tracking-wide max-w-2xl mx-auto">
             Donate Food With Ease. <br /> Make a Difference Today!
           </p>
         </motion.div>
