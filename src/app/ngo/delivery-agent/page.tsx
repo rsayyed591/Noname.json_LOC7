@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Plus, Search, X } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import APIservice from "@/api/api"  
+import APIservice from "@/api/api"
+
 interface Agent {
   id: string
   name: string
@@ -15,56 +16,48 @@ interface Agent {
   image: string
 }
 
-const agentsData = {
-  "agents": [
-    {
-      "id": "1",
-      "name": "Vivek Chouhan",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    },
-    {
-      "id": "2",
-      "name": "Rahul Kumar",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    },
-    {
-      "id": "3",
-      "name": "Priya Singh",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    },
-    {
-      "id": "4",
-      "name": "Amit Patel",
-      "stars": 4,
-      "image": "/ngo/delivery-agent.jpg"
-    }
-  ]
-}
-
-
 export default function DeliveryAgent() {
-  const [agents, setAgents] = useState<Agent[]>(agentsData.agents)
+  const [agents, setAgents] = useState<Agent[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [newAgent, setNewAgent] = useState({ name: "", image: "", password: "" })
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        const response = await APIservice.listDeliveryAgents()
+        const fetchedAgents = response.data.map((agent: { name: string }, index: number) => ({
+          id: (index + 1).toString(),
+          name: agent.name,
+          stars: 4,
+          image: "/ngo/delivery-agent.jpg",
+        }))
+        setAgents(fetchedAgents)
+      } catch (error) {
+        console.error("Error fetching agents:", error)
+      }
+    }
+    fetchAgents()
+  }, [])
+
   const filteredAgents = agents.filter((agent) => agent.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
-  const handleAddAgent = async() => {
-    const response=await APIservice.deliveryAgentAdd({"name":newAgent.name,"password":newAgent.password}) 
+  const handleAddAgent = async () => {
     if (newAgent.name) {
-      const newAgentData: Agent = {
-        id: (agents.length + 1).toString(),
-        name: newAgent.name,
-        stars: 4,
-        image: newAgent.image || "/ngo/delivery-agent.jpg",
+      try {
+        await APIservice.deliveryAgentAdd({ name: newAgent.name, password: newAgent.password })
+        const newAgentData: Agent = {
+          id: (agents.length + 1).toString(),
+          name: newAgent.name,
+          stars: 4,
+          image: newAgent.image || "/ngo/delivery-agent.jpg",
+        }
+        setAgents([...agents, newAgentData])
+        setNewAgent({ name: "", image: "", password: "" })
+        setIsDialogOpen(false)
+      } catch (error) {
+        console.error("Error adding agent:", error)
       }
-      setAgents([...agents, newAgentData])
-      setNewAgent({ name: "", image: "", password: "" })
-      setIsDialogOpen(false)
     }
   }
 
@@ -75,9 +68,9 @@ export default function DeliveryAgent() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Delivery Agent</h2>
-      </div>
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">Delivery Agent</h2>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-200 hover:bg-blue-300 text-blue-800">
@@ -141,12 +134,9 @@ export default function DeliveryAgent() {
                   <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">
-                    {agent.name} 
-                  </p>
+                  <p className="font-medium">{agent.name}</p>
                   <div className="flex items-center">
-                    <span className="mr-1">{agent.stars} stars</span>
-                    ⭐
+                    <span className="mr-1">{agent.stars} stars</span>⭐
                   </div>
                 </div>
               </div>

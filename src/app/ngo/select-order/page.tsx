@@ -4,7 +4,8 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { WobbleCard } from "@/components/ngo/wobble-card"
-import  APIservice  from "@/api/api"
+import APIservice from "@/api/api"
+
 interface Donation {
   donation_id: string
   doner_id: string
@@ -43,8 +44,8 @@ export default function SelectOrder() {
       try {
         const lat = "18.93248"
         const lon = "72.83152"
-        const distance = "10 "
-        const response = await APIservice.getDonations({lat, lon, distance})
+        const distance = "60"
+        const response = await APIservice.getDonations({ lat, lon, distance })
         setDonations(response.data.donations)
       } catch (error) {
         console.error("Error fetching donations:", error)
@@ -57,7 +58,7 @@ export default function SelectOrder() {
   }, [])
 
   const handleCardClick = (id: string) => {
-    router.push(`/ngo/select-order/${id}`)
+    router.push(`/ngo/select-order?orderid=${id}`)
   }
 
   return (
@@ -76,7 +77,7 @@ export default function SelectOrder() {
               >
                 <div className="relative h-48">
                   <img
-                    src={"https://43d4-14-139-125-227.ngrok-free.app/"+donation.food_image || "/placeholder.svg"}
+                    src={"https://43d4-14-139-125-227.ngrok-free.app/" + donation.food_image || "/placeholder.svg"}
                     alt={donation.food_name}
                     className="w-full h-full object-cover rounded-t-lg"
                   />
@@ -98,4 +99,3 @@ export default function SelectOrder() {
     </div>
   )
 }
-
